@@ -40,8 +40,6 @@ class CompositeFilter;
 
 namespace api {
 
-class AggregateQuery;
-
 /**
  * A `Query` refers to a Firestore Query which you can read or listen to. You
  * can also construct refined `Query` objects by adding filters and ordering.
@@ -185,12 +183,6 @@ class Query {
   Query Wrap(core::Query chained_query) const {
     return Query(std::move(chained_query), firestore_);
   }
-
-  /**
-   * Creates a new `AggregateQuery` counting the number of documents matching
-   * this query.
-   */
-  AggregateQuery Count() const;
 
  private:
   void ValidateNewFilter(const core::Filter& filter) const;

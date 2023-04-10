@@ -138,12 +138,6 @@ class SyncEngine : public remote::RemoteStoreCallback, public QueryEventSource {
                    core::TransactionUpdateCallback update_callback,
                    core::TransactionResultCallback result_callback);
 
-  /**
-   * Executes a count query using the given query as the base.
-   */
-  void RunCountQuery(const core::Query& query,
-                     api::CountQueryCallback&& result_callback);
-
   void HandleCredentialChange(const credentials::User& user);
 
   // Implements `RemoteStoreCallback`

@@ -662,10 +662,15 @@ absl::optional<bundle::NamedQuery> LocalStore::GetNamedQuery(
 
 void LocalStore::ConfigureFieldIndexes(
     std::vector<FieldIndex> new_field_indexes) {
+  auto cmp = [](const FieldIndex& left, const FieldIndex& right) {
+    return FieldIndex::SemanticCompare(left, right) ==
+           util::ComparisonResult::Ascending;
+  };
+
   // This lambda function takes a rvalue vector as parameter,
   // then coverts it to a sorted set based on the compare function above.
-  auto convertToSet = [](std::vector<FieldIndex>&& vec) {
-    std::set<FieldIndex, FieldIndex::SemanticLess> result;
+  auto convertToSet = [&](std::vector<FieldIndex>&& vec) {
+    std::set<FieldIndex, decltype(cmp)> result(cmp);
     for (auto& index : vec) {
       result.insert(std::move(index));
     }
@@ -673,7 +678,7 @@ void LocalStore::ConfigureFieldIndexes(
   };
 
   return persistence_->Run("Configure indexes", [&] {
-    return util::DiffSets<FieldIndex, FieldIndex::SemanticLess>(
+    return util::DiffSets<FieldIndex, decltype(cmp)>(
         convertToSet(index_manager_->GetFieldIndexes()),
         convertToSet(std::move(new_field_indexes)), FieldIndex::SemanticCompare,
         [this](const model::FieldIndex& index) {

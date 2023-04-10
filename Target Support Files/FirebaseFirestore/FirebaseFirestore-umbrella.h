@@ -10,9 +10,6 @@
 #endif
 #endif
 
-#import "FIRAggregateQuery.h"
-#import "FIRAggregateQuerySnapshot.h"
-#import "FIRAggregateSource.h"
 #import "FIRCollectionReference.h"
 #import "FIRDocumentChange.h"
 #import "FIRDocumentReference.h"

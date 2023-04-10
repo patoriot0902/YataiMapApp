@@ -19,6 +19,8 @@
 #include "Firestore/core/src/api/settings.h"
 #include "Firestore/core/src/util/exception.h"
 #include "Firestore/core/src/util/string_apple.h"
+#include "absl/base/attributes.h"
+#include "absl/memory/memory.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,7 +30,8 @@ using firebase::firestore::util::MakeString;
 using firebase::firestore::util::ThrowInvalidArgument;
 
 // Public constant
-extern "C" const int64_t kFIRFirestoreCacheSizeUnlimited = Settings::CacheSizeUnlimited;
+ABSL_CONST_INIT extern "C" const int64_t kFIRFirestoreCacheSizeUnlimited =
+    Settings::CacheSizeUnlimited;
 
 @implementation FIRFirestoreSettings
 
